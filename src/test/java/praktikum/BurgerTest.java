@@ -2,8 +2,6 @@ package praktikum;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -75,12 +73,22 @@ public class BurgerTest {
         burger.setBuns(bunMock);
         burger.addIngredient(sauceMock);
         burger.addIngredient(fillingMock);
-        String receipt = burger.getReceipt();
 
-        assertTrue(receipt.contains("black bun"));
-        assertTrue(receipt.contains("hot sauce"));
-        assertTrue(receipt.contains("cutlet"));
-        assertTrue(receipt.contains("Price"));
+        String expectedReceipt =
+                "(==== black bun ====)\n" +
+                        "= sauce hot sauce =\n" +
+                        "= filling cutlet =\n" +
+                        "(==== black bun ====)\n\n" +
+                        "Price: 400,000000\n";
+
+        String actualReceipt = burger.getReceipt();
+
+        // Убираем возможные различия
+        expectedReceipt = expectedReceipt.replace("\r", "").trim();
+        actualReceipt = actualReceipt.replace("\r", "").trim();
+
+        assertEquals(expectedReceipt, actualReceipt);
     }
+
 }
 
